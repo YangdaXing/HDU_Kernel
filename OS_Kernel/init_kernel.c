@@ -9,4 +9,9 @@ void machine_info()
 void init_kernel()
 {
 	init_MonitoringProgram();
+	machine_info();
+	while (1)
+	{
+
+	}
 }

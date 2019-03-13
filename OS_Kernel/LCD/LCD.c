@@ -1,8 +1,4 @@
-#ifndef _LCD_H
-#define _LCD_H
-
-#include "stm32f2xx.h"
-#include "tool.h"
+#include "LCD.h"
 
 /***********************************初始化LCD屏幕**********************************/
 void init_LCD()
@@ -13,6 +9,7 @@ void init_LCD()
 	/* Enable FSMC clock */
 	RCC_AHB3PeriphClockCmd(RCC_AHB3Periph_FSMC, ENABLE);
 
+	/********************************首先设置LCD的RST位*****************************/
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;				 //PC0推挽输出 
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; 		 //推挽谁出
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -20,6 +17,7 @@ void init_LCD()
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 	GPIO_SetBits(GPIOD, GPIO_Pin_12);
 
+	/********************************设置LCD的LCD_BL位***********************/
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;				 //PC0 推挽输出 背光
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; 		 //推挽输出
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -209,18 +207,21 @@ vu16 Delay_ms(vu16 Count)
 	}
 	return Count;
 }
+
 /***********************************写数据函数**************************************/
 void LCD_IO_WriteReg(uint8_t Reg)
 {
 	/* Write 16-bit Index, then Write Reg */
 	*(__IO uint16_t *)FSMC_LCD_REG = Reg;
 }
+
 /***********************************设置光标函数*************************************/
 void LCD_IO_WriteData(uint16_t Data)
 {
 	/* Write 16-bit Reg */
 	*(__IO uint16_t *)FSMC_LCD_DATA = Data;
 }
+
 /***********************************设置光标函数*************************************/
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
 {
@@ -232,6 +233,7 @@ void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
 	LCD_IO_WriteData(Ypos >> 8);
 	LCD_IO_WriteData(Ypos & 0XFF);
 }
+
 /***********************************打点函数*************************************/
 void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB)
 {
@@ -239,8 +241,8 @@ void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB)
 	LCD_IO_WriteReg(0x2C);
 	LCD_IO_WriteData(GRB);
 }
-/***********************************全屏变色函数*************************************/
 
+/***********************************全屏变色函数*************************************/
 void LCD_Color_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t GRB)
 {
 	uint16_t height, width;
@@ -254,7 +256,3 @@ void LCD_Color_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t
 		for (j = 0; j < width; j++)LCD_IO_WriteData(GRB);
 	}
 }
-
-
-
-#endif // !_LCD_H

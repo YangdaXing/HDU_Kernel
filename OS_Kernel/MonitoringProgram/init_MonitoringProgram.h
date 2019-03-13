@@ -4,4 +4,6 @@
 #include "stm32f2xx.h"
 #include "KeyBoard.h"
 
+void init_MonitoringProgram();
+
 #endif // !_MONITORINGPROGRAM_H
