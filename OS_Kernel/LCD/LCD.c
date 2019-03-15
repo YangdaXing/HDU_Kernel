@@ -3,6 +3,10 @@
 /***********************************初始化LCD屏幕**********************************/
 void init_LCD()
 {
+	/*******************************全局变量定义***********************************/
+	GPIO_InitTypeDef GPIO_InitStructure；
+	FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
+	FSMC_NORSRAMTimingInitTypeDef  p;
 	/* Enable GPIOs clock */
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD | RCC_AHB1Periph_GPIOE | RCC_AHB1Periph_GPIOC, ENABLE);
 
