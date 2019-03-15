@@ -4,7 +4,7 @@
 void init_LCD()
 {
 	/*******************************全局变量定义***********************************/
-	GPIO_InitTypeDef GPIO_InitStructure；
+	GPIO_InitTypeDef GPIO_InitStructure;
 	FSMC_NORSRAMInitTypeDef  FSMC_NORSRAMInitStructure;
 	FSMC_NORSRAMTimingInitTypeDef  p;
 	/* Enable GPIOs clock */
@@ -212,14 +212,14 @@ vu16 Delay_ms(vu16 Count)
 	return Count;
 }
 
-/***********************************写数据函数**************************************/
+/***********************************写指令函数**************************************/
 void LCD_IO_WriteReg(uint8_t Reg)
 {
 	/* Write 16-bit Index, then Write Reg */
 	*(__IO uint16_t *)FSMC_LCD_REG = Reg;
 }
 
-/***********************************设置光标函数*************************************/
+/***********************************写数据函数*************************************/
 void LCD_IO_WriteData(uint16_t Data)
 {
 	/* Write 16-bit Reg */
@@ -257,6 +257,9 @@ void LCD_Color_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t
 	{
 
 		LCD_IO_WriteReg(0x2C);
-		for (j = 0; j < width; j++)LCD_IO_WriteData(GRB);
+		for (j = 0; j < width; j++)
+		{
+			LCD_IO_WriteData(GRB);
+		}
 	}
 }
