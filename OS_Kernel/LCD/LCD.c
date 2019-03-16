@@ -240,31 +240,18 @@ void LCD_OpenWindow(uint16_t usX, uint16_t usY,uint16_t usWidth,uint16_t usHeigh
 
 void LCD_SetCursor(uint16_t usX, uint16_t usY)
 {
-	LCD_OpenWindow(usX, usY, 1, 1);
-}
-
-/***********************************打点函数*************************************/
-void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB)
-{
-	LCD_SetCursor(x, y);
+	LCD_OpenWindow(usX, usY, 2, 16);//光标宽度为2像素，高度为16像素
 	LCD_IO_WriteReg(0x2C);
 	LCD_IO_WriteData(GRB);
 }
 
-/***********************************全屏变色函数*************************************/
-void LCD_Color_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t GRB)
-{
-	uint16_t height, width;
-	uint16_t i, j;
-	width = ex - sx + 1;
-	height = ey - sy + 1;
-	for (i = 0; i < height; i++)
-	{
 
-		LCD_IO_WriteReg(0x2C);
-		for (j = 0; j < width; j++)
-		{
-			LCD_IO_WriteData(GRB);
-		}
-	}
-}
+/***********************************打点函数*************************************/
+//void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB)
+//{
+//	LCD_SetCursor(x, y);
+//	LCD_IO_WriteReg(0x2C);
+//	LCD_IO_WriteData(GRB);
+//}
+
+
