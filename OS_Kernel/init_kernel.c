@@ -12,6 +12,6 @@ void init_kernel()
 	machine_info();
 	while (1)
 	{
-
+		
 	}
 }

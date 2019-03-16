@@ -195,10 +195,6 @@ void init_LCD()
 	Delay_ms(120);
 	LCD_IO_WriteReg(0x29); //display on
 	/********************************************************************************/
-
-	LCD_Color_Fill(0, 0, 239, 159, WHITE);//控制LCD屏幕显示
-	LCD_Color_Fill(0, 160, 239, 319, BLACK);//这里显示 一半白 一半黑
-	LCD_DrawPoint(100, 80, BLUE);          //打一个蓝色的点
 }
 
 /***********************************粗延时函数*************************************/
@@ -227,15 +223,24 @@ void LCD_IO_WriteData(uint16_t Data)
 }
 
 /***********************************设置光标函数*************************************/
-void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
+void LCD_OpenWindow(uint16_t usX, uint16_t usY,uint16_t usWidth,uint16_t usHeight)
 {
-	LCD_IO_WriteReg(0x2A);
-	LCD_IO_WriteData(Xpos >> 8);
-	LCD_IO_WriteData(Xpos & 0XFF);
+	LCD_IO_WriteReg(LCDcmd_SetCoordinateX);
+	LCD_IO_WriteData(usX >> 8);
+	LCD_IO_WriteData(usX & 0XFF);
+	LCD_IO_WriteData((usX + usWidth - 1) >> 8);
+	LCD_IO_WriteData((usX + usWidth - 1) & 0xff);
 
-	LCD_IO_WriteReg(0x2B);
-	LCD_IO_WriteData(Ypos >> 8);
-	LCD_IO_WriteData(Ypos & 0XFF);
+	LCD_IO_WriteReg(LCDcmd_SetCoordinateY);
+	LCD_IO_WriteData(usY >> 8);
+	LCD_IO_WriteData(usY & 0XFF);
+	LCD_IO_WriteData((usY + usHeight - 1) >> 8);
+	LCD_IO_WriteData((usY + usHeight - 1) & 0xff);
+}
+
+void LCD_SetCursor(uint16_t usX, uint16_t usY)
+{
+	LCD_OpenWindow(usX, usY, 1, 1);
 }
 
 /***********************************打点函数*************************************/

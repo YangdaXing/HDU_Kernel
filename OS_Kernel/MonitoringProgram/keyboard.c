@@ -1,5 +1,4 @@
-﻿
-#include "KeyBoard.h"
+﻿#include "KeyBoard.h"
 
 
 void init_KeyBoard()
@@ -115,24 +114,8 @@ u8 Keyboard_Scan()
 /*******************************键盘消抖**********************************************************/
 u8 Keyboard_Jitter()
 {
-	u8 flag = 1;                  //用来判断10次读取的值是否一致
-	u8 KeyValue = time_1ms();     //先存储第一次读取的键盘值
-	for (int i = 1; i < 10; i++)  //核对10次
-	{
-		if (KeyValue != time_1ms())
-		{
-			flag = 0;
-			break;
-		}
-	}
-	if (flag)                     //如果匹配10次，则返回键盘输入值
-	{
-		return KeyValue;
-	}
-	else                          //如果未能匹配10次，则不返回
-	{
+	u8 counter = 1;
 
-	}
 }
 
 /*******************启动滴答计时器**********************************/
@@ -145,7 +128,7 @@ void Init_systick()
 
 void SysTick_Handler(void)
 {
-	u8 keyvalue = Keyboard_Scan();
+	keyvalue_tmp = Keyboard_Scan();
 }
 
 

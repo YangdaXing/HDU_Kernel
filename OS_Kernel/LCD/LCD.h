@@ -21,6 +21,12 @@
 #define BRRED 			 0XFC07 //棕红色
 #define GRAY  			 0X8430 //灰色
 
+/*
+*FSMC基础命令宏定义
+*/
+#define LCDcmd_SetCoordinateX 0x2A //设置列坐标
+#define LCDcmd_SetCoordinateY 0x2B //设置行坐标
+
 /***********************************函数声明*************************************/
 void init_LCD();
 vu16 Delay_ms(vu16 count);
@@ -28,6 +34,7 @@ void LCD_IO_WriteReg(uint8_t Reg);
 void LCD_IO_WriteData(uint16_t Data);
 void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB);
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos);
+void LCD_OpenWindow(uint16_t usX, uint16_t usY, uint16_t usWidth, uint16_t usHeight);
 void LCD_Color_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t GRB);
 
 
