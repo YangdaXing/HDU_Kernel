@@ -222,7 +222,7 @@ void LCD_IO_WriteData(uint16_t Data)
 	*(__IO uint16_t *)FSMC_LCD_DATA = Data;
 }
 
-/***********************************设置光标函数*************************************/
+/***********************************选定区域函数*************************************/
 void LCD_OpenWindow(uint16_t usX, uint16_t usY,uint16_t usWidth,uint16_t usHeight)
 {
 	LCD_IO_WriteReg(LCDcmd_SetCoordinateX);
@@ -238,13 +238,24 @@ void LCD_OpenWindow(uint16_t usX, uint16_t usY,uint16_t usWidth,uint16_t usHeigh
 	LCD_IO_WriteData((usY + usHeight - 1) & 0xff);
 }
 
+/***********************************设置光标函数**********************************************/
 void LCD_SetCursor(uint16_t usX, uint16_t usY)
 {
+	//如何使光标闪烁？
 	LCD_OpenWindow(usX, usY, 2, 16);//光标宽度为2像素，高度为16像素
-	LCD_IO_WriteReg(0x2C);
-	LCD_IO_WriteData(GRB);
+	LCD_IO_WriteReg(0x2C);//写颜色指令
+	LCD_IO_WriteData(BLACK);
+	Delay_ms(500);
+	LCD_IO_WriteData(WHITE);
 }
 
+/***********************************大范围变色函数**********************************************/
+void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usWidth, uint16_t usHeight,uint16_t GRB)
+{
+	LCD_OpenWindow(usX, usY, usWidth, usHeight);//选定需要变颜色的区域
+	LCD_IO_WriteReg(0x2C);                      //准备变颜色
+	LCD_IO_WriteData(GRB);                      //写入需要变得颜色
+}
 
 /***********************************打点函数*************************************/
 //void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB)

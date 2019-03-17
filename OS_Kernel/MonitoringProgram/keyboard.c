@@ -126,14 +126,31 @@ void Init_systick()
 	SysTick->CTRL |= 0x00000003;//启动滴答计时器，（以产生SysTick中断的方式）
 }
 
+/************************************中断处理函数******************************************************/
 void SysTick_Handler(void)
 {
-	keyvalue_tmp = Keyboard_Scan();
+	keyvalue_tmp = Keyboard_Scan();//接收扫描得到的键值
+	/*******************************键盘消抖**********************************************************/
+	if (counter==0)
+	{
+		keyvalue = keyvalue_tmp;
+	}
+	else
+	{
+		if (keyvalue = keyvalue_tmp)
+		{
+			++Counter;
+		}
+		else
+		{
+			Counter = 0;
+		}
+	}
+	if (Counter==10)
+	{
+		KeyValue = keyvalue;
+	}
 }
 
 
-
-
-
-
-/*存在的问题 读取函数不知道放在什么位置上比较好  返回值为255时表示未读取到键盘输入*/
+/* 返回值为255时表示未读取到键盘输入*/
