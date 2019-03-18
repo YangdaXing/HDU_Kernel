@@ -249,6 +249,7 @@ void LCD_SetCursor(uint16_t usX, uint16_t usY)
 	LCD_IO_WriteData(WHITE);
 }
 
+/************************************´òµãº¯Êý***********************************************/
 void LCD_DrawPoint(u16 usX, u16 usY, uint16_t GRB)
 {
 
