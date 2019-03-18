@@ -35,7 +35,7 @@ void LCD_IO_WriteData(uint16_t Data);
 void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB);
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos);
 void LCD_OpenWindow(uint16_t usX, uint16_t usY, uint16_t usWidth, uint16_t usHeight);
-void LCD_Color_Fill(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint16_t GRB);
+void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usHeight, uint16_t usWidth, uint16_t GRB);
 
 
 

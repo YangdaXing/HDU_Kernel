@@ -249,20 +249,25 @@ void LCD_SetCursor(uint16_t usX, uint16_t usY)
 	LCD_IO_WriteData(WHITE);
 }
 
-/***********************************大范围变色函数**********************************************/
-void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usWidth, uint16_t usHeight,uint16_t GRB)
+void LCD_DrawPoint(u16 usX, u16 usY, uint16_t GRB)
 {
-	LCD_OpenWindow(usX, usY, usWidth, usHeight);//选定需要变颜色的区域
-	LCD_IO_WriteReg(0x2C);                      //准备变颜色
-	LCD_IO_WriteData(GRB);                      //写入需要变得颜色
+
+	LCD_OpenWindow(usX, usY, 1, 1);
+	LCD_IO_WriteReg(0x2C); 	//?????
+	LCD_IO_WriteData(GRB);
 }
 
-/***********************************打点函数*************************************/
-//void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB)
-//{
-//	LCD_SetCursor(x, y);
-//	LCD_IO_WriteReg(0x2C);
-//	LCD_IO_WriteData(GRB);
-//}
+/***********************************大面积涂色函数**********************************************/
+void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usHeight, uint16_t usWidth, uint16_t GRB)
+{
+	uint16_t i, j;
+	for (i = 0; i < usHeight; i++)
+	{
+		for (j = 0; j < usWidth; j++)
+		{
+			LCD_DrawPoint(usX + i, usY + j, GRB);               //????????
+		}
+	}
+}
 
 
