@@ -265,4 +265,3 @@ void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usWidth, uint16_t usHeigh
 //	LCD_IO_WriteData(GRB);
 //}
 
-
