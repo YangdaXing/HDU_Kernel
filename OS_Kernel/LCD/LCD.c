@@ -242,14 +242,11 @@ void LCD_OpenWindow(uint16_t usX, uint16_t usY,uint16_t usWidth,uint16_t usHeigh
 }
 
 /***********************************设置光标函数**********************************************/
-void LCD_SetCursor(uint16_t usX, uint16_t usY)
+void LCD_SetCursor(uint16_t row, uint16_t col)
 {
 	//如何使光标闪烁？
-	LCD_OpenWindow(usX, usY, 2, 16);//光标宽度为2像素，高度为16像素
-	LCD_IO_WriteReg(0x2C);//写颜色指令
-	LCD_IO_WriteData(BLACK);
-	Delay_ms(500);
-	LCD_IO_WriteData(WHITE);
+	cursor_row = row;
+	cursor_rol = col;
 }
 
 /************************************打点函数***********************************************/
@@ -274,4 +271,18 @@ void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usHeight, uint16_t usWidt
 	}
 }
 
-
+/************************************清屏函数********************************************/
+void LCD_CleanScreen(uint16_t scope)
+{
+	uint16_t r, c;                       //控制光标所在位置
+	uint32_t row_sum = scope * 16;       //列的最大值
+	uint32_t rol_sum = LCD_MAX_COL * 8;  //行的最大值
+	for ( r = 0; r < row_sum; r++)
+	{
+		for ( c = 0; c < rol_sum; c++)
+		{
+			LCD_DrawPoint(r, c, BLACK);  //将要清屏的位置涂成黑色
+		}
+	}
+	LCD_SetCursor(0, 0);                 //将光标置于起始位置
+}
