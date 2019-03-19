@@ -3,6 +3,7 @@
 
 #include "stm32f2xx.h"
 
+/*******************************基础宏定义**************************************/
 /*
 画笔颜色
 */
@@ -26,6 +27,20 @@
 */
 #define LCDcmd_SetCoordinateX 0x2A //设置列坐标
 #define LCDcmd_SetCoordinateY 0x2B //设置行坐标
+
+/*
+*屏幕上半部分（13行）用于控制台的输入输出
+*下半部分（2行）用于系统实时信息显示
+*/
+#define LCD_MAX_ROW 15
+#define LCD_MAX_COL 40
+
+#define LCD_ROW_SYSTEM 2
+#define LCD_ROW_CONSOLE = (LCD_MAX_ROW - LCD_ROW_SYSTEM)
+
+/***********************************全局变量*************************************/
+extern uint16_t cursor_row;
+extern uint16_t cursor_rol;
 
 /***********************************函数声明*************************************/
 void init_LCD();
