@@ -223,20 +223,21 @@ void LCD_IO_WriteData(uint16_t Data)
 }
 
 /***********************************选定区域函数*************************************/
-void LCD_OpenWindow(uint16_t usX, uint16_t usY,uint16_t usWidth,uint16_t usHeight) //默认原点坐标是右下角，现在设置为左上角
+void LCD_OpenWindow(uint16_t usX, uint16_t usY,uint16_t usWidth,uint16_t usHeight) //默认原点坐标是右下角，现在设置为左上角，Y轴为水平向左，X轴为竖直向下
 {
-	LCD_IO_WriteReg(LCDcmd_SetCoordinateX);
+	LCD_IO_WriteReg(LCDcmd_SetCoordinateX);//设置行
 	LCD_IO_WriteData((239 - usX - usWidth + 1) >> 8);
 	LCD_IO_WriteData((239 - usX - usWidth + 1) & 0xff);
-	LCD_IO_WriteData(239-usX >> 8);
-	LCD_IO_WriteData(239-usX & 0XFF);
-	
+	LCD_IO_WriteData((239 - usX) >> 8);
+	LCD_IO_WriteData(239 - usX & 0XFF);
 
-	LCD_IO_WriteReg(LCDcmd_SetCoordinateY);
+
+	LCD_IO_WriteReg(LCDcmd_SetCoordinateY); //设置列
+
 	LCD_IO_WriteData((319 - usY - usHeight + 1) >> 8);
 	LCD_IO_WriteData((319 - usY - usHeight + 1) & 0xff);
-	LCD_IO_WriteData(319-usY >> 8);
-	LCD_IO_WriteData(319-usY & 0XFF);
+	LCD_IO_WriteData((319 - usY) >> 8);
+	LCD_IO_WriteData(319 - usY & 0XFF);
 
 }
 
