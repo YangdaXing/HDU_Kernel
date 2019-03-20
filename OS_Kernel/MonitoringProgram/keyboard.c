@@ -124,13 +124,13 @@ void SysTick_Handler(void)
 {
 	keyvalue_tmp = Keyboard_Scan();//接收扫描得到的键值
 	/*******************************键盘消抖**********************************************************/
-	if (counter==0)
+	if (Counter==0)
 	{
 		keyvalue = keyvalue_tmp;
 	}
 	else
 	{
-		if (keyvalue = keyvalue_tmp)
+		if (keyvalue == keyvalue_tmp)
 		{
 			++Counter;
 		}

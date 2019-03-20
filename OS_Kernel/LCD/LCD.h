@@ -25,6 +25,8 @@
 /*
 *FSMC基础命令宏定义
 */
+#define FSMC_LCD_DATA ((uint32_t)0x60020000)
+#define FSMC_LCD_REG ((uint32_t)0x60000000)
 #define LCDcmd_SetCoordinateX 0x2A //设置列坐标
 #define LCDcmd_SetCoordinateY 0x2B //设置行坐标
 
@@ -249,8 +251,8 @@ void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB);
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos);
 void LCD_OpenWindow(uint16_t usX, uint16_t usY, uint16_t usWidth, uint16_t usHeight);
 void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usHeight, uint16_t usWidth, uint16_t GRB);
-void putchar_single(uint16_t usX, uint16_t usY, u8 ch)//打印单个字符，字符点阵为16*8（16行*8列）SerialNumber是指字符在点阵数组中的起始位置
-void put_char(u8 ch, int scope)//打印字符，自动维护位置
+void put_char_ex(uint16_t usX, uint16_t usY, u8 ch);//打印单个字符，字符点阵为16*8（16行*8列）SerialNumber是指字符在点阵数组中的起始位置
+void put_char_single(u8 ch, int scope);//打印字符，自动维护位置
 
 
 #endif // !_LCD_H

@@ -288,7 +288,7 @@ void LCD_CleanScreen(uint16_t scope)
 }
 
 /**********************************在指定位置打印相应字符************************************************/
-void putchar_single(uint16_t usX, uint16_t usY, u8 ch)//打印单个字符，字符点阵为16*8（16行*8列）SerialNumber是指字符在点阵数组中的起始位置
+void put_char_ex(uint16_t usX, uint16_t usY, u8 ch)//打印单个字符，字符点阵为16*8（16行*8列）SerialNumber是指字符在点阵数组中的起始位置
 {
 	u8 row;
 	//LCD_DrawArea(0, 0, 240, 320, BLACK);
@@ -315,7 +315,7 @@ void putchar_single(uint16_t usX, uint16_t usY, u8 ch)//打印单个字符，字符点阵为
 }
 
 /***************************************打印一个字符，自动维护光标位置*********************************************************/
-void put_char(u8 ch, uint16_t scope)
+void put_char_single(u8 ch, uint16_t scope)
 {
 	if (ch == '\n')                 //如果匹配到换行符
 	{
@@ -333,7 +333,7 @@ void put_char(u8 ch, uint16_t scope)
 	}
 	if (ch == '\t')
 	{
-		cursor_col = LCD_TAB_LEN * Col_PerMove;
+		cursor_col += LCD_TAB_LEN * Col_PerMove;
 		if (cursor_col >= LCD_MAX_COL*Col_PerMove)
 		{
 			cursor_col = 0;
@@ -349,7 +349,7 @@ void put_char(u8 ch, uint16_t scope)
 		}
 		return;
 	}
-	putchar_single(cursor_row, cursor_col, ch);
+	put_char_ex(cursor_row, cursor_col, ch);
 	cursor_col += Col_PerMove;
 	if (cursor_col >= LCD_MAX_COL * Col_PerMove)
 	{
