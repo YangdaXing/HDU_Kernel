@@ -34,7 +34,7 @@
 */
 #define LCD_MAX_ROW 15
 #define LCD_MAX_COL 40
-
+#define LCD_TAB_LEN 4
 #define LCD_ROW_SYSTEM 2
 #define LCD_ROW_CONSOLE = (LCD_MAX_ROW - LCD_ROW_SYSTEM)
 #define Row_PerMove 16
@@ -42,7 +42,7 @@
 
 /***********************************全局变量*************************************/
 extern uint16_t cursor_row;
-extern uint16_t cursor_rol;
+extern uint16_t cursor_col;
 
 /***********************************函数声明*************************************/
 void init_LCD();
@@ -53,7 +53,8 @@ void LCD_DrawPoint(u16 x, u16 y, uint16_t GRB);
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos);
 void LCD_OpenWindow(uint16_t usX, uint16_t usY, uint16_t usWidth, uint16_t usHeight);
 void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usHeight, uint16_t usWidth, uint16_t GRB);
-
+void putchar_single(uint16_t usX, uint16_t usY, u8 ch)//打印单个字符，字符点阵为16*8（16行*8列）SerialNumber是指字符在点阵数组中的起始位置
+void put_char(u8 ch, int scope)//打印字符，自动维护位置
 
 
 #endif // !_LCD_H

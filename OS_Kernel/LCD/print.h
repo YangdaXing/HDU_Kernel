@@ -202,8 +202,6 @@ const char fontdata[] =
 
 
 /******************************º¯ÊıÉêÃ÷*****************************************/
-void putchar_single(uint16_t usX, uint16_t usY, u8 SerialNumber);
-
 
 #endif // !_PRINT_H
 

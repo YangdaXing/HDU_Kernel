@@ -275,15 +275,99 @@ void LCD_DrawArea(uint16_t usX, uint16_t usY, uint16_t usHeight, uint16_t usWidt
 void LCD_CleanScreen(uint16_t scope)
 {
 	uint16_t r, c;                       //控制光标所在位置
-	uint32_t row_sum = scope * 16;       //列的最大值
-	uint32_t rol_sum = LCD_MAX_COL * 8;  //行的最大值
+	uint32_t row_sum = scope * Row_PerMove;       //一共需要清除的x方向的最大值
+	uint32_t col_sum = LCD_MAX_COL * Col_PerMove;  //一共需要清除的y方向的最大值
 	for ( r = 0; r < row_sum; r++)
 	{
-		for ( c = 0; c < rol_sum; c++)
+		for ( c = 0; c < col_sum; c++)
 		{
 			LCD_DrawPoint(r, c, BLACK);  //将要清屏的位置涂成黑色
 		}
 	}
 	LCD_SetCursor(0, 0);                 //将光标置于起始位置
 }
+
+/**********************************在指定位置打印相应字符************************************************/
+void putchar_single(uint16_t usX, uint16_t usY, u8 ch)//打印单个字符，字符点阵为16*8（16行*8列）SerialNumber是指字符在点阵数组中的起始位置
+{
+	u8 row;
+	//LCD_DrawArea(0, 0, 240, 320, BLACK);
+	for (row = 0; row < 16; row++)//控制行输出
+	{
+		u8 tmp = 1;         //用来临时储存字符点阵移位的一位值
+		u8 col;
+		uint32_t SerialNumber = ('ch' - 32) * 16;//计算ch的点阵在数组中的位置
+		u8 data = fontdata[SerialNumber + row];
+		for (col = 0; col < 8; col++)//控制列输出
+		{
+			tmp = data >> 7;//点阵一行的最高位值
+			if (tmp == 1)
+			{
+				LCD_DrawPoint(usX + row, usY + col, WHITE);
+			}
+			else
+			{
+				LCD_DrawPoint(usX + row, usY + col, BLACK);
+			}
+			data = data << 1;//将点阵移位，读取次位值
+		}
+	}
+}
+
+/***************************************打印一个字符，自动维护光标位置*********************************************************/
+void put_char(u8 ch, uint16_t scope)
+{
+	if (ch == '\n')                 //如果匹配到换行符
+	{
+		cursor_col = 0;
+		cursor_row += Row_PerMove;
+		if (cursor_row==scope*Row_PerMove)
+		{
+			LCD_CleanScreen(scope);
+		}
+		else
+		{
+			LCD_SetCursor(cursor_row, cursor_col);
+		}
+		return;
+	}
+	if (ch == '\t')
+	{
+		cursor_col = LCD_TAB_LEN * Col_PerMove;
+		if (cursor_col >= LCD_MAX_COL*Col_PerMove)
+		{
+			cursor_col = 0;
+			cursor_row += Row_PerMove;
+		}
+		if (cursor_row == scope * Row_PerMove)
+		{
+			LCD_CleanScreen(scope);
+		}
+		else
+		{
+			LCD_SetCursor(cursor_row, cursor_col);
+		}
+		return;
+	}
+	putchar_single(cursor_row, cursor_col, ch);
+	cursor_col += Col_PerMove;
+	if (cursor_col >= LCD_MAX_COL * Col_PerMove)
+	{
+		cursor_col = 0;
+		cursor_row += Row_PerMove;
+	}
+	if (cursor_row == scope * Row_PerMove)
+	{
+		LCD_CleanScreen(scope);
+	}
+	else
+	{
+		LCD_SetCursor(cursor_row, cursor_col);
+	}
+}
+
+/*
+*!!!主要问题，如何是坐标的计算以 16*8 为一个单位，而不是 点*点 为单位，这样在后续的操作会带来麻烦
+*/
+
 
