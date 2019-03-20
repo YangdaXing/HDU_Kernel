@@ -37,6 +37,8 @@
 
 #define LCD_ROW_SYSTEM 2
 #define LCD_ROW_CONSOLE = (LCD_MAX_ROW - LCD_ROW_SYSTEM)
+#define Row_PerMove 16
+#define Col_PerMove 8
 
 /***********************************全局变量*************************************/
 extern uint16_t cursor_row;

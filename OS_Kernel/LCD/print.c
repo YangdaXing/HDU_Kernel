@@ -2,25 +2,26 @@
 #include "LCD.h"
 
 /**********************************在指定位置打印相应字符************************************************/
-void putchar_single(uint16_t usX,uint16_t usY,u8 SerialNumber)//打印单个字符，字符点阵为16*8（16行*8列）SerialNumber是指字符在点阵数组中的起始位置
+void putchar_single(uint16_t usX,uint16_t usY,u8 ch)//打印单个字符，字符点阵为16*8（16行*8列）SerialNumber是指字符在点阵数组中的起始位置
 {
-	u8 k;
+	u8 row;
 	//LCD_DrawArea(0, 0, 240, 320, BLACK);
-	for (k = 0; k < 16; k++)//控制行输出
+	for (row = 0; row < 16; row++)//控制行输出
 	{
 		u8 tmp = 1;         //用来临时储存字符点阵移位的一位值
-		u8 a;
-		u8 data = fontdata[SerialNumber + k];
-		for (a = 0; a < 8; a++)//控制列输出
+		u8 col;
+		uint32_t SerialNumber = ('ch' - 32) * 16;//计算ch的点阵在数组中的位置
+		u8 data = fontdata[SerialNumber + row];
+		for (col = 0; col < 8; col++)//控制列输出
 		{
 			tmp = data >> 7;//点阵一行的最高位值
 			if (tmp == 1)
 			{
-				LCD_DrawPoint(usX + k, usY + a, WHITE);
+				LCD_DrawPoint(usX + row, usY + col, WHITE);
 			}
 			else
 			{
-				LCD_DrawPoint(usX + k, usY + a, BLACK);
+				LCD_DrawPoint(usX + row, usY + col, BLACK);
 			}
 			data = data << 1;//将点阵移位，读取次位值
 		}
@@ -39,4 +40,3 @@ void putchar_single(uint16_t usX,uint16_t usY,u8 SerialNumber)//打印单个字符，字
 
 
 
-#endif // !_PRINT_H

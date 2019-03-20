@@ -286,3 +286,4 @@ void LCD_CleanScreen(uint16_t scope)
 	}
 	LCD_SetCursor(0, 0);                 //将光标置于起始位置
 }
+
